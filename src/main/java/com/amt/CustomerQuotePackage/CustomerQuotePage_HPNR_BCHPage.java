@@ -366,7 +366,7 @@ public class CustomerQuotePage_HPNR_BCHPage extends TestBase {
 	public boolean check_monthly_finance_rental_with_part_exchange_with_maintenance(
 			String actual_part_exchange_value_from_excel, String given_part_exchange_value_from_excel,
 			String less_finance_settlement_from_excel, String order_Deposit_from_excel, String document_fee_from_excel,
-			String sheet_name) throws InterruptedException, IOException {
+			String sheet_name) throws InterruptedException, IOException, ClassNotFoundException {
 
 		ExplicitWait.clickableElement(driver, part_exchange_payment, 50);
 		Thread.sleep(4000);
@@ -385,14 +385,15 @@ public class CustomerQuotePage_HPNR_BCHPage extends TestBase {
 		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 60);
 
 		JavascriptExecutor jse = (JavascriptExecutor) driver;
+		
+		if (Class.forName(Thread.currentThread().getStackTrace()[2].getClassName()).getName().contains("edit")) {}
+		else {
+			jse.executeScript("arguments[0].click();", check_box_outstanding_finance, 20);
+			ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 60);
+		   }
 
-		jse.executeScript("arguments[0].click();", check_box_outstanding_finance, 20);
+		
 
-		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 60);
-
-		jse.executeScript("arguments[0].click();", check_box_supplier_setting_finance, 20);
-
-		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 60);
 
 		Click.sendKeys(driver, funder_name, "Funder X", 20);
 		act.sendKeys(Keys.TAB).perform();
@@ -460,6 +461,7 @@ public class CustomerQuotePage_HPNR_BCHPage extends TestBase {
 		wb.getSheet(sheet_name).getRow(109).getCell(1).setCellValue("NO");
 		FileOutputStream out = new FileOutputStream(prop.getProperty("formula_excel_path"));
 		wb.write(out);
+		out.close();
 
 		double monthlyFinanceRentalFromExcel = GetExcelFormulaValue.get_formula_value(89, 1, sheet_name);
 
@@ -752,6 +754,29 @@ public class CustomerQuotePage_HPNR_BCHPage extends TestBase {
 						customer_quote_monthly_maintenance_rental, maintenance_required, maintenance_margin,
 						initial_payment, part_exchange_status, target_rental, sheet_name);
 	}
+	
+	public boolean change_payment_profile_option_with_maintenance_calculation(
+			String actual_part_exchange_value_from_excel, String given_part_exchange_value_from_excel,
+			String less_finance_settlement_from_excel, String order_Deposit_from_excel, String document_fee_from_excel,
+			String upsell, String maintenance_required, String maintenance_margin, String payment_profile_required,  String initial_payment, 
+			String part_exchange_status, String target_rental, String sheet_name)
+			throws IOException, InterruptedException, NumberFormatException, ClassNotFoundException {
+		
+		obj_read_excel_calculation_page = new ReadExcelCalculation();
+		Click.on(driver, customer_quote, 50);
+		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 160);
+
+		return obj_read_excel_calculation_page
+				.verify_customer_quote_calculations_after_editing_payment_profile_with_maintenance(driver,
+						customer_quote_payment_profile_dropdown, part_exchange_payment, actual_part_exchange_value,
+						actual_part_exchange_value_from_excel, given_part_exchange_value,
+						given_part_exchange_value_from_excel, less_finance_settlement,
+						less_finance_settlement_from_excel, order_Deposit, order_Deposit_from_excel, document_fee,
+						document_fee_from_excel, upsell, customer_quote_monthly_finance_rental,
+						customer_quote_monthly_maintenance_rental, maintenance_required, maintenance_margin,
+						payment_profile_required,initial_payment, part_exchange_status, target_rental, sheet_name);
+	}
+
 
 	public boolean customer_Quote_used_car_HPNR_BCH_for_one_payment_option_with_maintenance_calculation(
 			String actual_part_exchange_value_from_excel, String given_part_exchange_value_from_excel,

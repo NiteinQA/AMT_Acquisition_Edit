@@ -41,7 +41,7 @@ public class TestBase {
 		try {
 			prop = new Properties();
 			FileInputStream ip = new FileInputStream(
-					"D:\\Acquisition\\AMT_Automation_Acquisition\\src\\main\\java\\configs\\config.properties");
+					"D:\\Acquisition_Edit\\AMT_Acquisition_Edit\\src\\main\\java\\configs\\config.properties");
 			prop.load(ip);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -89,7 +89,7 @@ public class TestBase {
 
 		prop = new Properties();
 		FileInputStream ip = new FileInputStream(
-				"D:\\Acquisition\\AMT_Automation_Acquisition\\src\\main\\java\\configs\\config.properties");
+				"D:\\Acquisition_Edit\\AMT_Acquisition_Edit\\src\\main\\java\\configs\\config.properties");
 		prop.load(ip);
 
 		initialization(prop.getProperty("browser"));

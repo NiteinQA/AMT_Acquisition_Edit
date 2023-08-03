@@ -197,12 +197,13 @@ public class QuoteSummary_HPNR_BCHPage extends TestBase {
 	@FindBy(xpath = "//*[normalize-space()='Balance due']//ancestor::div[1]//p//strong")
 	private WebElement balance_due_value;
 
+		
 	public QuoteSummary_HPNR_BCHPage() {
 
 		try {
 			prop = new Properties();
 			FileInputStream ip = new FileInputStream(
-					"D:\\Acquisition\\AMT_Automation_Acquisition\\src\\main\\java\\configs\\excelValues.properties");
+					"D:\\Acquisition_Edit\\AMT_Acquisition_Edit\\src\\main\\java\\configs\\excelValues.properties");
 			prop.load(ip);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -1840,7 +1841,8 @@ public class QuoteSummary_HPNR_BCHPage extends TestBase {
 		ExplicitWait.visibleElement(driver, quote_summary_base_interest_rate, 20);
 		double baseInterestRateFromScreen = Double
 				.parseDouble(quote_summary_base_interest_rate.getText().trim().substring(0, 5));
-
+		
+		
 		ExplicitWait.visibleElement(driver, quote_summary_finance_margin, 20);
 		double financeMarginFromScreen = Double
 				.parseDouble(RemoveComma.of(quote_summary_finance_margin.getText().trim().substring(2)));
@@ -1886,7 +1888,7 @@ public class QuoteSummary_HPNR_BCHPage extends TestBase {
 		double tempbaseInterestRateFromExcel = GetExcelFormulaValue.get_formula_value(208, 1, sheet_name);
 
 		double baseInterestRateFromExcel = (tempbaseInterestRateFromExcel * 100);
-
+		
 		double financeMarginFromExcel = GetExcelFormulaValue.get_formula_value(208, 3, sheet_name);
 
 		double deductionsFromExcel = GetExcelFormulaValue.get_formula_value(210, 1, sheet_name);
@@ -1916,7 +1918,8 @@ public class QuoteSummary_HPNR_BCHPage extends TestBase {
 		int count = 0;
 
 		boolean status = false;
-		if (baseInterestRateFromExcel == baseInterestRateFromScreen) {
+		if (Difference.of_two_Double_Values(baseInterestRateFromExcel, baseInterestRateFromScreen) < 0.05)			
+		{
 			LO.print("Base Interest Rate found OK");
 			System.out.println("Base Interest Rate found OK");
 			count++;

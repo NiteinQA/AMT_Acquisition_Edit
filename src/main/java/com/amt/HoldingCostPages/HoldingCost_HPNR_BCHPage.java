@@ -452,6 +452,24 @@ public class HoldingCost_HPNR_BCHPage extends TestBase {
 //				 holding_cost_summary_residual_value_used,  total_monthly_holding_cost,
 //				 residual_value_used,  percentage_cap_residual_value_used , seet_name);
 //			}
+	
+	public void open_holding_cost_page() throws InterruptedException
+	{
+		Click.on(driver, holding_cost, 30);
+
+		LO.print("***********Entered in holding cost page ***********");
+		System.out.println("***********Entered in holding cost page ***********");
+
+		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 150);
+		Thread.sleep(3000);
+
+		Click.on(driver, holding_cost_summary, 30);
+
+		Thread.sleep(3000);
+
+		LO.print("Clicked on holding cost summary");
+		System.out.println("Clicked on holding cost summary");
+	}
 
 	public boolean verify_holding_cost_before_editing_cap_data_with_maintenance(
 			String percentage_maintenance_cost_used_from_excel, String residual_value_used_from_excel,
@@ -520,6 +538,8 @@ public class HoldingCost_HPNR_BCHPage extends TestBase {
 		act.sendKeys(Keys.TAB).build().perform();
 
 		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 30);
+		
+		obj_read_excel_calculation_page = new ReadExcelCalculation();
 
 		return obj_read_excel_calculation_page
 				.edit_percentage_residual_and_maint_cost_then_verify_holding_cost_with_maintenance(driver,
@@ -559,6 +579,8 @@ public class HoldingCost_HPNR_BCHPage extends TestBase {
 		act.sendKeys(Keys.TAB).build().perform();
 
 		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 30);
+		
+		obj_read_excel_calculation_page = new ReadExcelCalculation();
 
 		return obj_read_excel_calculation_page
 				.edit_residual_value_and_maint_cost_then_verify_holding_cost_with_maintenance(driver,
@@ -578,13 +600,22 @@ public class HoldingCost_HPNR_BCHPage extends TestBase {
 		Actions act = new Actions(driver);
 
 		// code for editing additional_term_and_mileage
+		
+		ExplicitWait.visibleElement(driver, additional_terms, 20);
+		ExplicitWait.visibleElement(driver, additional_mileage, 20);
+
+		additional_terms.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
 
 		// send additional terms
 		Click.sendKeys(driver, additional_terms, additional_terms_from_excel, 20);
+
 		act.sendKeys(Keys.TAB).build().perform();
-		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 30);
+		
+    	ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 120);
 
 		// send additional mileage
+    	additional_mileage.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));  	
+    	
 		Click.sendKeys(driver, additional_mileage, additional_mileage_from_excel, 20);
 		act.sendKeys(Keys.TAB).build().perform();
 		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 30);
@@ -599,6 +630,8 @@ public class HoldingCost_HPNR_BCHPage extends TestBase {
 
 		maintenance_cost_used.sendKeys(Keys.chord(Keys.CONTROL, "a", "c"));
 		String maint_cost_used_from_screen = (String) clipboard.getData(DataFlavor.stringFlavor);
+		
+		obj_read_excel_calculation_page = new ReadExcelCalculation();
 
 		return obj_read_excel_calculation_page
 				.edit_additional_terms_and_mileage_then_verify_holding_cost_with_maintenance(driver,
