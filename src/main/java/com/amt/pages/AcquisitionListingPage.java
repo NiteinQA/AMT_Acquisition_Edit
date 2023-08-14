@@ -17,6 +17,7 @@ import com.amt.testUtil.Click;
 import com.amt.testUtil.Dropdown;
 import com.amt.testUtil.ExplicitWait;
 import com.amt.testUtil.GetExcelFormulaValue;
+import com.amt.testUtil.JavaScriptExecutor;
 
 public class AcquisitionListingPage extends TestBase {
 
@@ -54,7 +55,12 @@ public class AcquisitionListingPage extends TestBase {
 	 	// acquisition_quote_search_bar
 
 	 	@FindBy(xpath = "// *[@id='vehicleSearchInp']")
-	 	private WebElement acquisition_quote_search_bar;  
+	 	private WebElement acquisition_quote_search_bar; 
+	 	
+	 	
+	 	//checkbox show expired quote
+	 	@FindBy(xpath = "//*[@for='showExpiredQuote']")
+	 	private WebElement show_expired_quote_checkbox; 
 			
 				
 		public AcquisitionListingPage() {
@@ -192,6 +198,62 @@ public class AcquisitionListingPage extends TestBase {
 			
 		}
 	
+	public void open_saved_quote_to_verify_refresh_link(String quote_no) throws InterruptedException, IOException {
+		
+		
+		driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(50));
+		
+		
+		Click.on(driver, roles_dropdown, 60);
+		
+		 Thread.sleep(1000);
+		
+		Click.on(driver, super_admin, 60);
+		
+ 		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 120);
+		
+		
+		System.out.println("Opening Acquisition Quote for Quote number "+quote_no);
+		LO.print          ("Opening Acquisition Quote for Quote number "+quote_no);
+
+		// ***************Part 2 - Copying the quote to make new
+		// quote***************************
+		Thread.sleep(2000);
+		
+		Click.on(driver, aquisition_quotes_button, 60);
+		
+		Thread.sleep(5000);
+		
+		ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 120);
+		
+		Thread.sleep(2000);		
+		
+	     JavaScriptExecutor.click(driver, show_expired_quote_checkbox);
+		
+	     ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 120);
+	     
+	     Thread.sleep(2000);
+		
+		Click.sendKeys(driver, acquisition_quote_search_bar, quote_no, 60);		
+		
+		Thread.sleep(8000);
+		
+     	ExplicitWait.visibleElement(driver, quote_at_first_position, 30);
+     	
+     	Thread.sleep(2000); 
+     	
+        Actions act = new Actions(driver);
+     
+        act.doubleClick(quote_at_first_position).perform();	
+        
+        Thread.sleep(2000);
+        
+        act.doubleClick(quote_at_first_position).perform();	
+
+    	ExplicitWait.waitTillLoadingIconDisappears(driver, loading_icon, 200);
+		
+		
+	}
 
 
 }

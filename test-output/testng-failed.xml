@@ -3,18 +3,14 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="newCar.HPNR.Acquisition_Quotes_HPNR_BCH_edit_flow_with_maintenance_Test">
+      <class name="newCar.HPNR.Acquisition_Quotes_Refresh_Link_Verification_Test">
         <methods>
-          <include name="open_quote_summary_and_verify_values_after_editing_holding_cost_values"/>
           <include name="end"/>
-          <include name="open_quote_summary_and_verify_values_after_editing_road_tax_for_first_year"/>
-          <include name="open_saved_quote_and_edit_road_tax_for_first_year"/>
-          <include name="open_quote_summary_and_verify_values_after_editing_customer_quote_values"/>
-          <include name="open_saved_quote_and_edit_holding_cost_editable_values"/>
-          <include name="open_saved_quote_and_edit_customer_quote_editable_values" invocation-numbers="0"/>
+          <include name="start_info"/>
+          <include name="verify_refresh_link_on_OTR_page" invocation-numbers="1"/>
           <include name="setup"/>
         </methods>
-      </class> <!-- newCar.HPNR.Acquisition_Quotes_HPNR_BCH_edit_flow_with_maintenance_Test -->
+      </class> <!-- newCar.HPNR.Acquisition_Quotes_Refresh_Link_Verification_Test -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->
